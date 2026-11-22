@@ -17,7 +17,8 @@ ECS::Entity SpriteManager::CreateSpritePartECS(
 	sf::Vector2f scale,
 	sf::IntRect rect,
 	float depthOffset,
-	bool canMove
+	bool canMove,
+	std::vector<std::pair<int , sf::IntRect>> animationPacks
 ) {
 
 	auto& world = ECS::World::get_instance();
@@ -32,13 +33,17 @@ ECS::Entity SpriteManager::CreateSpritePartECS(
 		rect,
 		true
 	);
+	if (!animationPacks.empty()) {
+		world.add_component<ECS::Animation>(entity, animationPacks, 'D', true, rect);
 
+	}
 	world.add_component<ECS::Personality>(entity, canMove);
 
 	return entity;
 }
 
 
+	
 
 
 void SpriteManager::drawSpriteECS(sf::RenderWindow& window) {
@@ -88,7 +93,7 @@ void SpriteManager::drawSpriteECS(sf::RenderWindow& window) {
 	for (const auto& data : renderQueue) {
 		auto spriteData = world.get_component<ECS::SpriteData>(data.e);
 		auto transform = world.get_component<ECS::Transform>(data.e);
-
+		auto animation = world.get_component<ECS::Animation>(data.e);
 		if (!spriteData || !transform) {
 			continue;
 		}
@@ -96,7 +101,12 @@ void SpriteManager::drawSpriteECS(sf::RenderWindow& window) {
 		sf::Sprite drawnSprite(spriteData->get().texture);
 
 		if (spriteData->get().useTextureRect) {
-			drawnSprite.setTextureRect(spriteData->get().textureRect);
+			if (animation && animation->get().useAnimation) {
+				drawnSprite.setTextureRect(animation->get().lastRect);
+			}
+			else {
+				drawnSprite.setTextureRect(spriteData->get().textureRect);
+			}
 		}
 
 		drawnSprite.setPosition(transform->get().position);

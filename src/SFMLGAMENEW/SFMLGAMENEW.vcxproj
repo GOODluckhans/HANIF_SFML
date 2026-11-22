@@ -148,6 +148,7 @@
     <None Include="SFMLGAMENEW.slnx" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Headers\Animation\Animation.cpp" />
     <ClCompile Include="Headers\Building\Building.cpp" />
     <ClCompile Include="Headers\Camera\Camera.cpp" />
     <ClCompile Include="Headers\Map\Map.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="x64\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Headers\Animation\Animation.hpp" />
     <ClInclude Include="Headers\Building\Building.hpp" />
     <ClInclude Include="Headers\Camera\Camera.hpp" />
     <ClInclude Include="Headers\Collision\Collision.hpp" />

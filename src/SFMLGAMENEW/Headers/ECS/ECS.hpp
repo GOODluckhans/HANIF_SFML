@@ -25,6 +25,18 @@ namespace ECS {
 		sf::Sprite* sprite = nullptr;
 	};
 
+	struct Animation {
+		std::vector<std::pair<int, sf::IntRect>> animationPacks;
+
+		char lastDir = 'D';
+		bool useAnimation = false;
+		sf::IntRect lastRect;
+		int currentFrame = 0;
+		float animationTimer = 0.f;
+		float frameDuration = 0.0955f;
+		bool isMoving = false;
+	};
+
 	struct Personality
 	{
 		bool canMove;
@@ -40,7 +52,7 @@ namespace ECS {
 	};
 
 	template <typename T>
-	concept  ComponentConcept = std::is_same_v<T, Collider> || std::is_same_v<T, Depth> ||std::is_same_v<T, Transform>||std::is_same_v<T, SpriteData> || std::is_same_v<T, Personality>;
+	concept  ComponentConcept = std::is_same_v<T,Animation> || std::is_same_v<T, Collider> || std::is_same_v<T, Depth> ||std::is_same_v<T, Transform>||std::is_same_v<T, SpriteData> || std::is_same_v<T, Personality>;
 
 	class World {
 	public:
